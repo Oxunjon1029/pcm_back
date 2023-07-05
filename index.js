@@ -29,7 +29,8 @@ app.use('/api/v1', tagsRouter)
 
 const io = new Server(server, {
   cors: {
-    origin: '*'
+    origin: '*',
+    methods: ['GET', 'POST'],
   }
 })
 app.set('io', io)
