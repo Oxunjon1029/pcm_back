@@ -67,6 +67,7 @@ const deleteCollection = async (req, res) => {
 const getS3Url = async (req, res) => {
   try {
     const url = await generateUploadUrl();
+    
     if (!url) res.status(StatusCodes.BAD_REQUEST).json({
       message: 'Something went wrong'
     })
