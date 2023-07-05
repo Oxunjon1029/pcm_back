@@ -12,22 +12,14 @@ const signUp = async (req, res) => {
   }
 
   const hash_password = await bcrypt.hash(password, 10);
-
-  const userData = {
-    name,
-    email,
-    hash_password,
-    role
-  };
-
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email });
     if (user) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         message: "User already registered",
       });
     } else {
-      User.create(userData).then((data, err) => {
+      User.create({ name: name, email: email, hash_password: hash_password, role: role }).then((data, err) => {
         if (err) res.status(StatusCodes.BAD_REQUEST).json({ err });
         else
           res
@@ -41,16 +33,17 @@ const signUp = async (req, res) => {
 };
 
 const signIn = async (req, res) => {
+  const { email, password } = req.body
   try {
-    if (!req.body.email || !req.body.password) {
+    if (!email || !password) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         message: "Please enter email and password",
       });
     }
 
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ email: email });
     if (user) {
-      if (await bcrypt.compare(req.body.password, user.hash_password) && user.status === 'active') {
+      if (await bcrypt.compare(password, user.hash_password) && user.status === 'active') {
         const token = jwt.sign(
           { _id: user._id },
           process.env.JWT_SECRET, { expiresIn: process.env.EXPIRE_TIME });
@@ -64,11 +57,10 @@ const signIn = async (req, res) => {
           message: "This user is unauthorized or blocked!",
         });
       }
-    } else {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        message: "User does not exist..!",
-      });
     }
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "User does not exist..!",
+    });
   } catch (error) {
     if (error) res.status(StatusCodes.BAD_REQUEST).json({ error });
   }
