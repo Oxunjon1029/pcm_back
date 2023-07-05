@@ -44,12 +44,14 @@ const signIn = async (req, res) => {
     const user = await User.findOne({ email: email });
     if (user) {
       if (await bcrypt.compare(password, user.hash_password) && user.status === 'active') {
+        const { _id, name, email, status, role } = user;
         const token = jwt.sign(
           { user: user },
           process.env.JWT_SECRET, { expiresIn: process.env.EXPIRE_TIME });
 
         return res.status(StatusCodes.OK).json({
           token,
+          user: user
         });
       } else {
         return res.status(StatusCodes.UNAUTHORIZED).json({
