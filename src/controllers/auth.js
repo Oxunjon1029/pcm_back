@@ -51,7 +51,7 @@ const signIn = async (req, res) => {
 
         return res.status(StatusCodes.OK).json({
           token,
-          user: user
+          user: { _id, name, email, status, role }
         });
       } else {
         return res.status(StatusCodes.UNAUTHORIZED).json({
