@@ -43,7 +43,7 @@ const signUp = async (req, res) => {
 const signIn = async (req, res) => {
   try {
     if (!req.body.email || !req.body.password) {
-      res.status(StatusCodes.BAD_REQUEST).json({
+      return res.status(StatusCodes.BAD_REQUEST).json({
         message: "Please enter email and password",
       });
     }
@@ -55,22 +55,22 @@ const signIn = async (req, res) => {
           { _id: user._id },
           process.env.JWT_SECRET, { expiresIn: process.env.EXPIRE_TIME });
         const { _id, name, email, status, role } = user;
-        res.status(StatusCodes.OK).json({
+        return res.status(StatusCodes.OK).json({
           token,
           user: { _id, name, email, status, role },
         });
       } else {
-        res.status(StatusCodes.UNAUTHORIZED).json({
+        return res.status(StatusCodes.UNAUTHORIZED).json({
           message: "This user is unauthorized or blocked!",
         });
       }
     } else {
-      res.status(StatusCodes.BAD_REQUEST).json({
+      return res.status(StatusCodes.BAD_REQUEST).json({
         message: "User does not exist..!",
       });
     }
   } catch (error) {
-    res.status(StatusCodes.BAD_REQUEST).json({ error });
+    if (error) res.status(StatusCodes.BAD_REQUEST).json({ error });
   }
 };
 module.exports = { signUp, signIn };
