@@ -1,34 +1,38 @@
-require('dotenv').config()
-const aws = require('aws-sdk')
-const { promisify } = require('util')
-const crypto = require('crypto');
-const region = "eu-north-1"
-const bucketName = "personalcollectionmanagement"
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
-console.log('accessKeyId:', accessKeyId, "secretAccessKey:", secretAccessKey)
-const randomBytes = promisify(crypto.randomBytes)
+require('dotenv').config();
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+const { randomBytes } = require('crypto');
+const { promisify } = require('util');
 
+const region = "eu-north-1";
+const bucketName = "personalcollectionmanagement";
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 
-const s3 = new aws.S3({
+const randomBytesAsync = promisify(randomBytes);
+
+const s3Client = new S3Client({
   region,
-  accessKeyId,
-  secretAccessKey,
-  signatureVersion: 'v4',
-})
+  credentials: {
+    accessKeyId,
+    secretAccessKey
+  }
+});
 
 const generateUploadUrl = async () => {
-  const rawBytes = await randomBytes(16)
-  const imageName = rawBytes.toString('hex')
+  const rawBytes = await randomBytesAsync(16);
+  const imageName = rawBytes.toString('hex');
 
-  const params = ({
+  const params = {
     Bucket: bucketName,
     Key: imageName,
-  })
-  const uploadUrl = await s3.getSignedUrlPromise('putObject', params)
-  return uploadUrl
-}
+  };
+
+  const command = new PutObjectCommand(params);
+  const uploadUrl = await s3Client.getSignedUrl(command);
+
+  return uploadUrl;
+};
 
 module.exports = {
   generateUploadUrl
-}
+};
