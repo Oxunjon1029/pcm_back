@@ -50,7 +50,6 @@ io.on('connection', socket => {
   });
 });
 
-console.log(process.env.MONGO_URL)
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URL).then(async () => {
