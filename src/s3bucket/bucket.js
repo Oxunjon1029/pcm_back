@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({ debug: true })
 const aws = require('aws-sdk')
 const { promisify } = require('util')
 const crypto = require('crypto');

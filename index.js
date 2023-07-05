@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config({ debug: true })
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -53,7 +53,7 @@ io.on('connection', socket => {
 
 const start = async () => {
   try {
-    await connectDB('mongodb+srv://Genius:Aoxunjon1029@cluster0.mtrdd.mongodb.net/itransition').then(async () => {
+    await connectDB(process.env.MONGO_URL).then(async () => {
       console.log('db connected')
       server.listen(PORT, () => { console.log(`Server is running on port ${PORT}`) });
     }).catch((err) => console.log(err));
