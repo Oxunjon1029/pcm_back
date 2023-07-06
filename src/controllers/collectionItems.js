@@ -184,7 +184,6 @@ const getLastestCollectionItems = async (req, res) => {
   }
 }
 module.exports = {
-  getAllCollectionItems,
   getAllCollectionItemsByCollectionId,
   createCollectionItem,
   editCollectionItem,
