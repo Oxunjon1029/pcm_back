@@ -2,10 +2,9 @@ const Items = require('../models/collectionItems');
 const { StatusCodes } = require('http-status-codes')
 
 const getAllCollectionItemsByCollectionId = async (req, res) => {
-
   const { collectionId } = req.query
-  if (collectionId !== undefined) {
-    try {
+  try {
+    if (collectionId !== undefined) {
 
       const items = await Items.find({ collectionId: collectionId });
       if (!items) res.status(StatusCodes.BAD_REQUEST).json({
@@ -14,14 +13,15 @@ const getAllCollectionItemsByCollectionId = async (req, res) => {
 
       return res.status(StatusCodes.OK).json(items)
 
-    } catch (err) {
-      if (err) res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err })
+    } else {
+      return res.status(StatusCodes.OK).json({
+        message: 'Everything is ok!!'
+      })
     }
-  } else {
-    return res.status(StatusCodes.OK).json({
-      message: 'Everything is ok!!'
-    })
+  } catch (err) {
+    if (err) res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err })
   }
+
 }
 
 const createCollectionItem = async (req, res) => {
