@@ -1,5 +1,4 @@
 const {
-  getAllCollectionItems,
   getAllCollectionItemsByCollectionId,
   createCollectionItem,
   editCollectionItem,
@@ -11,7 +10,6 @@ const {
 
 const router = require('express').Router();
 
-router.route('/collections/items').get(getAllCollectionItems)
 router.route('/collections/byCollectionId/items').get(getAllCollectionItemsByCollectionId);
 router.route('/collections/:collectionId/items/create').post(createCollectionItem);
 router.route('/collections/items/update/:itemId').put(editCollectionItem);

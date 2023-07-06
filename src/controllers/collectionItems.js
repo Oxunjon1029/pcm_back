@@ -1,20 +1,6 @@
 const Items = require('../models/collectionItems');
 const { StatusCodes } = require('http-status-codes')
-const getAllCollectionItems = async (req, res) => {
-  if (!req.params) res.status(StatusCodes.BAD_REQUEST).json({
-    message: 'Please provivde all required info'
-  })
-  try {
-    const items = await Items.find({});
-    if (!items) res.status(StatusCodes.BAD_REQUEST).json({
-      message: 'Something went wrong'
-    })
 
-    return res.status(StatusCodes.OK).json(items)
-  } catch (err) {
-    if (err) res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err })
-  }
-}
 const getAllCollectionItemsByCollectionId = async (req, res) => {
 
   const { collectionId } = req.query
