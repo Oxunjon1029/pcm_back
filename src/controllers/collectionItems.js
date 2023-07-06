@@ -2,8 +2,8 @@ const Items = require('../models/collectionItems');
 const { StatusCodes } = require('http-status-codes')
 
 const getAllCollectionItemsByCollectionId = async (req, res) => {
-  const { collectionId } = req.query
   try {
+    const { collectionId } = req.query
     if (collectionId !== undefined) {
       const items = await Items.find({ collectionId: collectionId });
       if (!items) res.status(StatusCodes.BAD_REQUEST).json({
