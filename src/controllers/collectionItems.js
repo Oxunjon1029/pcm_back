@@ -5,7 +5,6 @@ const getAllCollectionItemsByCollectionId = async (req, res) => {
   const { collectionId } = req.query
   try {
     if (collectionId !== undefined) {
-
       const items = await Items.find({ collectionId: collectionId });
       if (!items) res.status(StatusCodes.BAD_REQUEST).json({
         message: 'Something went wrong'
@@ -13,11 +12,11 @@ const getAllCollectionItemsByCollectionId = async (req, res) => {
 
       return res.status(StatusCodes.OK).json(items)
 
-    } else {
-      return res.status(StatusCodes.OK).json({
-        message: 'Everything is ok!!'
-      })
     }
+    
+    return res.status(StatusCodes.OK).json({
+      message: 'Everything is ok!!'
+    })
   } catch (err) {
     if (err) res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err })
   }
