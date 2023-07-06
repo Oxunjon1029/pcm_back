@@ -108,6 +108,7 @@ const getLargestFiveCollections = async (req, res) => {
           description: 1,
           topic: 1,
           imageUrl: 1,
+          createdBy:1,
           itemCount: 1,
           author: { $arrayElemAt: ['$user.name', 0] },
         },
