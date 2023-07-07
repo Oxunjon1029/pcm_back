@@ -13,7 +13,18 @@ const getAllCollections = async (req, res) => {
     if (err) res.status(StatusCodes.BAD_REQUEST).json({ err })
   }
 }
-
+const getCollectionById = async (req, res) => {
+  try {
+    const { id } = req.params
+    const collection = await Collections.findOne({ _id: id })
+    if (!collection) res.status(StatusCodes.BAD_REQUEST).json({
+      message: 'Something went wrong'
+    })
+    return res.status(StatusCodes.OK).json(collection)
+  } catch (err) {
+    if (err) res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err })
+  }
+}
 const createCollection = async (req, res) => {
   if (!req.body) res.status(StatusCodes.BAD_REQUEST).json({
     message: 'Please provide all required info'
@@ -37,9 +48,9 @@ const editCollection = async (req, res) => {
     message: 'Please provide all required info'
   })
   try {
-    const { name, description, topic, imageUrl } = req.body
+    const { name, description, topic, imageUrl, customFields } = req.body
     const { id } = req.params
-    const updatedCollection = await Collections.findOneAndUpdate({ _id: id }, { name: name, description: description, topic: topic, imageUrl: imageUrl }, { new: true });
+    const updatedCollection = await Collections.findOneAndUpdate({ _id: id }, { name: name, description: description, topic: topic, imageUrl: imageUrl, customFields: customFields }, { new: true });
     if (!updatedCollection) res.status(StatusCodes.BAD_REQUEST).json({
       message: 'Something went wrong'
     })
@@ -67,7 +78,7 @@ const deleteCollection = async (req, res) => {
 const getS3Url = async (req, res) => {
   try {
     const url = await generateUploadUrl();
-    
+
     if (!url) res.status(StatusCodes.BAD_REQUEST).json({
       message: 'Something went wrong'
     })
@@ -108,7 +119,7 @@ const getLargestFiveCollections = async (req, res) => {
           description: 1,
           topic: 1,
           imageUrl: 1,
-          createdBy:1,
+          createdBy: 1,
           itemCount: 1,
           author: { $arrayElemAt: ['$user.name', 0] },
         },
@@ -130,5 +141,6 @@ module.exports = {
   editCollection,
   deleteCollection,
   getS3Url,
-  getLargestFiveCollections
+  getLargestFiveCollections,
+  getCollectionById
 }

@@ -21,23 +21,18 @@ const collectionSchema = new mongoose.Schema({
   customFields: {
     integers: [{
       name: { type: String, required: true },
-      value: Number
     }],
     strings: [{
       name: { type: String, required: true },
-      value: String
     }],
     multilineTexts: [{
       name: { type: String, required: true },
-      value: String
     }],
     booleans: [{
       name: { type: String, required: true },
-      value: Boolean
     }],
     dates: [{
       name: { type: String, required: true },
-      value: Date
     }]
   }
 }, { timestamps: true })

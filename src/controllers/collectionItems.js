@@ -13,7 +13,7 @@ const getAllCollectionItemsByCollectionId = async (req, res) => {
       return res.status(StatusCodes.OK).json(items)
 
     }
-    
+
     return res.status(StatusCodes.OK).json({
       message: 'Everything is ok!!'
     })
@@ -29,9 +29,16 @@ const createCollectionItem = async (req, res) => {
   })
   try {
     const { collectionId } = req.params
-    const { name, uztags, entags } = req.body
+    const { name, uztags, entags, customFields } = req.body
 
-    const newItem = await Items.create({ name: name, uztags: uztags, entags: entags, collectionId: collectionId })
+    const newItem = await Items.create(
+      {
+        name: name,
+        uztags: uztags,
+        entags: entags,
+        collectionId: collectionId,
+        customFields: customFields
+      })
     if (!newItem) res.status(StatusCodes.BAD_REQUEST).json({
       message: 'Something went wrong'
     })
@@ -49,13 +56,14 @@ const editCollectionItem = async (req, res) => {
   })
   try {
     const { itemId } = req.params;
-    const { name, uztags, entags, } = req.body
+    const { name, uztags, entags, customFields } = req.body
     const updatedItem = await Items.findOneAndUpdate(
       { _id: itemId },
       {
         name: name,
         uztags: uztags,
         entags: entags,
+        customFields: customFields
       },
       { new: true });
     if (!updatedItem) res.status(StatusCodes.BAD_REQUEST).json({
