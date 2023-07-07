@@ -32,10 +32,12 @@ const collectionItemsSchema = new mongoose.Schema({
   ],
   customFields: {
     strings: [{
-      value: { type: String, required: true },
+      name: { type: String, required: true },
+      value: { type: String, required: true }
     }],
     dates: [{
-      value: { type: String, required: true },
+      name: { type: String, required: true },
+      value: { type: String, required: true }
     }]
   }
 }, { timestamps: true })
