@@ -1,4 +1,5 @@
 const Collections = require('../models/collections');
+const Items = require('../models/collectionItems');
 const { StatusCodes } = require('http-status-codes');
 const { generateUploadUrl } = require('../s3bucket/bucket')
 
@@ -67,6 +68,7 @@ const deleteCollection = async (req, res) => {
   try {
     const { id } = req.params
     await Collections.findOneAndDelete({ _id: id })
+    await Items.deleteMany({ collectionId: id });
     return res.status(StatusCodes.OK).json({
       message: 'Collection deleted successfully'
     })

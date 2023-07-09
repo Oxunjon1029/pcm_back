@@ -1,6 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const User = require("../models/users");
-
+const Collections = require('../models/collections')
+const Items = require('../models/collectionItems')
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({})
@@ -32,6 +33,10 @@ const deleteUser = async (req, res) => {
   const { selectedIds } = req.body;
   try {
     if (selectedIds?.length === 1) {
+      const collections = await Collections.find({ createdBy: selectedIds[0] });
+      collectionIds = collections.map((collection) => collection._id);
+      await Items.deleteMany({ collectionId: { $in: collectionIds } })
+      await Collections.deleteMany({ createdBy: selectedIds[0] })
       await User.findByIdAndDelete(selectedIds[0]);
       const Users = await User.find({})
       return res.status(StatusCodes.OK).json({
@@ -39,6 +44,10 @@ const deleteUser = async (req, res) => {
         users: Users
       })
     } else {
+      const collections = await Collections.find({ createdBy: { $in: selectedIds } });
+      collectionIds = collections.map((collection) => collection._id);
+      await Items.deleteMany({ collectionId: { $in: collectionIds } })
+      await Collections.deleteMany({ createdBy: { $in: selectedIds } })
       await User.deleteMany({ _id: { $in: selectedIds } });
       const Users = await User.find({})
       return res.status(StatusCodes.OK).json({
