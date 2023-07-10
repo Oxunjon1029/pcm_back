@@ -21,7 +21,6 @@ const searchRouter = require('./src/routes/search')
 const topicRouter = require('./src/routes/topic')
 const tagsRouter = require('./src/routes/tags')
 
-app.use(passport.initialize());
 const auth = passport.authenticate('jwt', { session: true });
 
 const opt = {

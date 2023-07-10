@@ -10,6 +10,7 @@ const {
 } = require('../controllers/collections');
 const passport = require('passport')
 const auth = passport.authenticate('jwt', { session: true });
+router.use(passport.initialize())
 router.route('/collection').get(auth, getAllCollections);
 router.route('/collection/:id').get(auth, getCollectionById)
 router.route('/collections/create').post(auth, createCollection);
