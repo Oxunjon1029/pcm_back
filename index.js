@@ -7,6 +7,7 @@ const { Server } = require('socket.io');
 const Item = require('./src/models/collectionItems')
 const PORT = process.env.PORT || 5000
 const connectDB = require('./src/db/connectDb')
+const cookieSessions = require('cookie-session');
 const authRouter = require('./src/routes/auth')
 const userRouter = require('./src/routes/users');
 const collectionRouter = require('./src/routes/collections');
@@ -17,8 +18,14 @@ const tagsRouter = require('./src/routes/tags')
 
 
 app.use(cors({
-  origin: 'http://localhost:3000', credentials: true
+  origin: 'http://localhost:3000',
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
 }));
+app.use(cookieSessions({
+  maxAge: 24 * 60 * 60 * 100,
+  keys: [process.env.COOKIE_SECRET]
+}))
 app.use(express.json());
 app.use('/api/v1', authRouter)
 app.use('/api/v1', userRouter)
