@@ -32,7 +32,7 @@ const signUp = async (req, res) => {
   }
 };
 
-const signIn = async (req, res, next) => {
+const signIn = async (req, res) => {
   const { email, password } = req.body
   try {
     if (!email || !password) {
@@ -43,7 +43,7 @@ const signIn = async (req, res, next) => {
 
     const user = await User.findOne({ email: email });
     if (user) {
-      next(null, user)
+      req.user = user
       if (await bcrypt.compare(password, user.hash_password) && user.status === 'active') {
         const { _id, name, email, status, role } = user;
         const token = jwt.sign(
@@ -54,13 +54,11 @@ const signIn = async (req, res, next) => {
           user: { _id, name, email, status, role }
         });
       } else {
-        next('This user is unauthorized or blocked!', null)
         return res.status(StatusCodes.UNAUTHORIZED).json({
           message: "This user is unauthorized or blocked!",
         });
       }
     }
-    next('User does not exist..!', null)
     return res.status(StatusCodes.BAD_REQUEST).json({
       message: "User does not exist..!",
     });
