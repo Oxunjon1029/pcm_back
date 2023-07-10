@@ -43,12 +43,13 @@ const signIn = async (req, res) => {
 
     const user = await User.findOne({ email: email });
     if (user) {
-      req.user = user
+
       if (await bcrypt.compare(password, user.hash_password) && user.status === 'active') {
         const { _id, name, email, status, role } = user;
         const token = jwt.sign(
           { _id: _id },
           process.env.JWT_SECRET, { expiresIn: process.env.EXPIRE_TIME });
+        req.user = user
         return res.status(StatusCodes.OK).json({
           token,
           user: { _id, name, email, status, role }
