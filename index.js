@@ -31,7 +31,7 @@ const opt = {
 passport.use(new JwtStrategy(opt, jwtCallback));
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: '*',
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
 }));
@@ -42,8 +42,8 @@ app.use(cookieSessions({
 app.use(express.json());
 app.use('/api/v1', authRouter)
 app.use('/api/v1', auth, isAuthenticatedAndAdmin, userRouter)
-app.use('/api/v1', auth, collectionRouter)
-app.use('/api/v1', auth, collectionItemRouter)
+app.use('/api/v1', collectionRouter)
+app.use('/api/v1', collectionItemRouter)
 app.use('/api/v1', searchRouter)
 app.use('/api/v1', topicRouter)
 app.use('/api/v1', tagsRouter)
