@@ -32,7 +32,7 @@ const signUp = async (req, res) => {
   }
 };
 
-const signIn = async (req, res) => {
+const signIn = async (req, res, next) => {
   const { email, password } = req.body
   try {
     if (!email || !password) {
@@ -48,17 +48,19 @@ const signIn = async (req, res) => {
         const token = jwt.sign(
           { _id: _id },
           process.env.JWT_SECRET, { expiresIn: process.env.EXPIRE_TIME });
-
+        next(null, user)
         return res.status(StatusCodes.OK).json({
           token,
           user: { _id, name, email, status, role }
         });
       } else {
+        next('This user is unauthorized or blocked!', null)
         return res.status(StatusCodes.UNAUTHORIZED).json({
           message: "This user is unauthorized or blocked!",
         });
       }
     }
+    next('User does not exist..!', null)
     return res.status(StatusCodes.BAD_REQUEST).json({
       message: "User does not exist..!",
     });
