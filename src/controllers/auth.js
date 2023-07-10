@@ -49,7 +49,6 @@ const signIn = async (req, res) => {
         const token = jwt.sign(
           { _id: _id },
           process.env.JWT_SECRET, { expiresIn: process.env.EXPIRE_TIME });
-        req.session.user = user
         return res.status(StatusCodes.OK).json({
           token,
           user: { _id, name, email, status, role }
