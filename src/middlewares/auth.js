@@ -1,7 +1,7 @@
 const { StatusCodes } = require('http-status-codes');
 
 module.exports.isAuthenticated = (req, res, next) => {
-  console.log(req)
+  console.log(req.user)
   if (req.user) {
     next()
   } else {
