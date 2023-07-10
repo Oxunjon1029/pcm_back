@@ -1,7 +1,9 @@
 const { StatusCodes } = require('http-status-codes');
+const User = require('../models/users')
 
-module.exports.isAuthenticatedAndAdmin = (req, res, next) => {
-  if (req.user && req.user.role === 'admin') {
+module.exports.isAuthenticatedAndAdmin = async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email })
+  if (user && user.role === 'admin') {
     next()
   } else {
     return res.status(StatusCodes.BAD_REQUEST).json({

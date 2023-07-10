@@ -8,6 +8,11 @@ const Item = require('./src/models/collectionItems')
 const PORT = process.env.PORT || 5000
 const connectDB = require('./src/db/connectDb')
 const cookieSessions = require('cookie-session');
+const passport = require("passport");
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+const { jwtCallback } = require("./src/utils/passport");
+const { isAuthenticatedAndAdmin } = require('./src/middlewares/guardAdmin')
 const authRouter = require('./src/routes/auth')
 const userRouter = require('./src/routes/users');
 const collectionRouter = require('./src/routes/collections');
@@ -16,6 +21,14 @@ const searchRouter = require('./src/routes/search')
 const topicRouter = require('./src/routes/topic')
 const tagsRouter = require('./src/routes/tags')
 
+app.use(passport.initialize());
+const auth = passport.authenticate('jwt', { session: true });
+
+const opt = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.JWT_SECRET,
+}
+passport.use(new JwtStrategy(opt, jwtCallback));
 
 app.use(cors({
   origin: 'http://localhost:3000',
@@ -28,9 +41,9 @@ app.use(cookieSessions({
 }))
 app.use(express.json());
 app.use('/api/v1', authRouter)
-app.use('/api/v1', userRouter)
-app.use('/api/v1', collectionRouter)
-app.use('/api/v1', collectionItemRouter)
+app.use('/api/v1', auth, isAuthenticatedAndAdmin, userRouter)
+app.use('/api/v1', auth, collectionRouter)
+app.use('/api/v1', auth, collectionItemRouter)
 app.use('/api/v1', searchRouter)
 app.use('/api/v1', topicRouter)
 app.use('/api/v1', tagsRouter)
