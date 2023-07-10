@@ -9,8 +9,8 @@ const {
 } = require('../controllers/collectionItems');
 const passport = require('passport')
 const auth = passport.authenticate('jwt', { session: true });
-router.use(passport.initialize())
 const router = require('express').Router();
+router.use(passport.initialize())
 router.route('/collections/byCollectionId/items').get(auth, getAllCollectionItemsByCollectionId);
 router.route('/collections/:collectionId/items/create').post(auth, createCollectionItem);
 router.route('/collections/items/update/:itemId').put(auth, editCollectionItem);
