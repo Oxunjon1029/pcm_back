@@ -7,11 +7,6 @@ const { Server } = require('socket.io');
 const Item = require('./src/models/collectionItems')
 const PORT = process.env.PORT || 5000
 const connectDB = require('./src/db/connectDb')
-const cookieSessions = require('cookie-session');
-const passport = require("passport");
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
-const { jwtCallback } = require("./src/utils/passport");
 const { isAuthenticatedAndAdmin } = require('./src/middlewares/guardAdmin')
 const authRouter = require('./src/routes/auth')
 const userRouter = require('./src/routes/users');
@@ -21,26 +16,13 @@ const searchRouter = require('./src/routes/search')
 const topicRouter = require('./src/routes/topic')
 const tagsRouter = require('./src/routes/tags')
 
-const auth = passport.authenticate('jwt', { session: true });
 
-const opt = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.JWT_SECRET,
-}
-passport.use(new JwtStrategy(opt, jwtCallback));
 
-app.use(cors({
-  origin: 'http://localhost:3000',
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-}));
-app.use(cookieSessions({
-  maxAge: 24 * 60 * 60 * 100,
-  keys: [process.env.COOKIE_SECRET]
-}))
+app.use(cors());
+
 app.use(express.json());
 app.use('/api/v1', authRouter)
-app.use('/api/v1', auth, isAuthenticatedAndAdmin, userRouter)
+app.use('/api/v1', isAuthenticatedAndAdmin, userRouter)
 app.use('/api/v1', collectionRouter)
 app.use('/api/v1', collectionItemRouter)
 app.use('/api/v1', searchRouter)
@@ -52,7 +34,6 @@ const io = new Server(server, {
   cors: {
     origin: '*',
     methods: ['GET', 'POST'],
-    allowedHeaders: ['Access-Control-Allow-Origin']
   }
 })
 app.set('io', io)

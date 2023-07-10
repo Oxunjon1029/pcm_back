@@ -7,8 +7,6 @@ const {
   addOrRemoveUserAsAdmin,
   deleteUser
 } = require('../controllers/users');
-const passport = require('passport')
-router.use(passport.initialize())
 router.route('/users').get(getAllUsers)
 router.route('/users/:id').get(getUserById);
 router.route('/users/status').put(changeStatusOfUser);
