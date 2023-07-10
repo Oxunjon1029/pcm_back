@@ -6,12 +6,13 @@ const {
   changeStatusOfUser,
   addOrRemoveUserAsAdmin,
   deleteUser
-} = require('../controllers/users')
+} = require('../controllers/users');
+const { isAuthenticatedAndAdmin } = require('../middlewares/guardAdmin');
 
-router.route('/users').get(getAllUsers)
-router.route('/users/:id').get(getUserById);
-router.route('/users/status').put(changeStatusOfUser);
-router.route('/users/role').put(addOrRemoveUserAsAdmin);
-router.route('/users/delete').delete(deleteUser)
+router.route('/users').get(isAuthenticatedAndAdmin, getAllUsers)
+router.route('/users/:id').get(isAuthenticatedAndAdmin, getUserById);
+router.route('/users/status').put(isAuthenticatedAndAdmin, changeStatusOfUser);
+router.route('/users/role').put(isAuthenticatedAndAdmin, addOrRemoveUserAsAdmin);
+router.route('/users/delete').delete(isAuthenticatedAndAdmin, deleteUser)
 
 module.exports = router

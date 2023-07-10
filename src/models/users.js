@@ -14,7 +14,6 @@ const collectionUsers = new mongoose.Schema({
   },
   hash_password: {
     type: String,
-    require: true,
   },
   status: {
     type: String,
@@ -25,7 +24,8 @@ const collectionUsers = new mongoose.Schema({
     type: String,
     enum: ['user', 'admin'],
     default: 'user'
-  }
+  },
+  googleId: { type: String }
 }, { timestamps: true })
 
 module.exports = mongoose.model('CollectionUsers', collectionUsers)
