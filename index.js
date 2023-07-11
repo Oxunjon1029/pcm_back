@@ -18,11 +18,7 @@ const tagsRouter = require('./src/routes/tags')
 require('./src/auth/passport')
 
 
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-  credentials: true
-}));
+app.use(cors());
 
 app.use(require('cookie-session')({
   maxAge: 24 * 60 * 60 * 100,
