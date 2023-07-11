@@ -8,10 +8,10 @@ const bcrypt = require('bcrypt');
 passport.use(new LocalStrategy(
   async function (email, password, done) {
     // You need to implement your own logic to validate the user's credentials
-    await User.findOne({ email: email }, function (err, user) {
+    await User.findOne({ email: email }, async function (err, user) {
       if (err) { return done(err); }
       if (!user) { return done(null, false); }
-      if (!bcrypt.compareSync(password, user?.hash_password)) { return done(null, false); }
+      if (!(await bcrypt.compareSync(password, user?.hash_password))) { return done(null, false); }
       return done(null, user);
     });
   }
