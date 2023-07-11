@@ -34,7 +34,7 @@ const signUp = async (req, res) => {
 
 const signIn = async (req, res) => {
   const { email, password } = req.body
-  console.log(req.isAuthenticated)
+  console.log('request', req)
   try {
     if (!email || !password) {
       return res.status(StatusCodes.BAD_REQUEST).json({
