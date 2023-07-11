@@ -23,10 +23,10 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true
 }));
-app.use(require('express-session')({
-  secret: process.env.COOKIE_SECRET,
-  resave: false,
-  saveUninitialized: false
+
+app.use(require('cookie-session')({
+  maxAge: 24 * 60 * 60 * 100,
+  keys: [process.env.COOKIE_SECRET]
 }));
 
 // Initialize Passport.js
