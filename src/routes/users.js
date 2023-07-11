@@ -8,10 +8,12 @@ const {
   deleteUser
 } = require('../controllers/users');
 const { isAuthenticatedAndAdmin } = require('../middlewares/guardAdmin');
-router.route('/users').get(isAuthenticatedAndAdmin, getAllUsers)
-router.route('/users/:id').get(isAuthenticatedAndAdmin, getUserById);
-router.route('/users/status').put(isAuthenticatedAndAdmin, changeStatusOfUser);
-router.route('/users/role').put(isAuthenticatedAndAdmin, addOrRemoveUserAsAdmin);
-router.route('/users/delete').delete(isAuthenticatedAndAdmin, deleteUser)
+const { ensureAuthenticated } = require('../middlewares/ensureAuthenticated');
+
+router.route('/users').get(ensureAuthenticated, isAuthenticatedAndAdmin, getAllUsers)
+router.route('/users/:id').get(ensureAuthenticated, isAuthenticatedAndAdmin, getUserById);
+router.route('/users/status').put(ensureAuthenticated, isAuthenticatedAndAdmin, changeStatusOfUser);
+router.route('/users/role').put(ensureAuthenticated, isAuthenticatedAndAdmin, addOrRemoveUserAsAdmin);
+router.route('/users/delete').delete(ensureAuthenticated, isAuthenticatedAndAdmin, deleteUser)
 
 module.exports = router
