@@ -18,9 +18,13 @@ const tagsRouter = require('./src/routes/tags')
 
 
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  credentials: true
+}));
 app.use(require('express-session')({
-  secret: 'your-secret-key',
+  secret: process.env.COOKIE_SECRET,
   resave: false,
   saveUninitialized: false
 }));
