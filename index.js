@@ -19,7 +19,7 @@ require('./src/auth/passport')
 
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true
 }));
