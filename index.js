@@ -20,10 +20,7 @@ require('./src/auth/passport')
 
 app.use(cors());
 
-app.use(require('cookie-session')({
-  maxAge: 24 * 60 * 60 * 100,
-  keys: [process.env.COOKIE_SECRET]
-}));
+
 
 // Initialize Passport.js
 app.use(passport.initialize());

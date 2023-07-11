@@ -8,7 +8,7 @@ const {
 } = require("../validators/auth");
 const passport = require('passport')
 
-router.route("/signin").post(validateSignIpRequest, isRequestValidated, passport.authenticate('local'));
+router.route("/signin").post(validateSignIpRequest, isRequestValidated, passport.authenticate('jwt', { session: false }));
 
 
 router.route("/signup").post(validateSignUpRequest, isRequestValidated, signUp);
