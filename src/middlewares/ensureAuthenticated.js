@@ -8,11 +8,11 @@ module.exports.ensureAuthenticated = (req, res, next) => {
   }
 
   // Verify the token
-  jwt.verify(token, process.env.JWT_SECRET, (err) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid token' });
     }
-
+    req.user = decoded
 
     next();
   });
