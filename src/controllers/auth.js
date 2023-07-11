@@ -34,6 +34,7 @@ const signUp = async (req, res) => {
 
 const signIn = async (req, res) => {
   const { email, password } = req.body
+  console.log(req.isAuthenticated)
   try {
     if (!email || !password) {
       return res.status(StatusCodes.BAD_REQUEST).json({
@@ -45,7 +46,6 @@ const signIn = async (req, res) => {
     if (user) {
 
       if (await bcrypt.compare(password, user.hash_password) && user.status === 'active') {
-        req.isAuthenticated() = true
         const { _id, name, email, status, role } = user;
         const token = jwt.sign(
           { _id: _id },

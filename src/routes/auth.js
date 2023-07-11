@@ -6,7 +6,6 @@ const {
   validateSignUpRequest,
   validateSignIpRequest,
 } = require("../validators/auth");
-const passport = require('passport')
 
 router.route("/signin").post(validateSignIpRequest, isRequestValidated, signIn);
 
