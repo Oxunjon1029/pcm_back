@@ -29,6 +29,7 @@ app.use(require('cookie-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use('/api/v1', authRouter)
 app.use('/api/v1', userRouter)
 app.use('/api/v1', collectionRouter)
