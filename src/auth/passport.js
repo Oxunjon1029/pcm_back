@@ -6,9 +6,9 @@ const User = require('../models/users');
 const bcrypt = require('bcrypt');
 // Configure the local strategy for passport
 passport.use(new LocalStrategy(
-  function (email, password, done) {
+  async function (email, password, done) {
     // You need to implement your own logic to validate the user's credentials
-    User.findOne({ email: email }, function (err, user) {
+    await User.findOne({ email: email }, function (err, user) {
       if (err) { return done(err); }
       if (!user) { return done(null, false); }
       if (!bcrypt.compareSync(password, user?.hash_password)) { return done(null, false); }
