@@ -7,6 +7,7 @@ const User = require('../models/users');
 const bcrypt = require('bcrypt');
 // Configure the local strategy for passport
 passport.use(new JwtStrategy({
+  jwtFromRequest: ExtractJwt.fromHeader(),
   secretOrKey: process.env.JWT_SECRET
 },
   async function (email, password, done) {
