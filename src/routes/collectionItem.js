@@ -10,7 +10,7 @@ const {
 const { ensureAuthenticated } = require('../middlewares/ensureAuthenticated');
 const router = require('express').Router();
 
-router.route('/collections/byCollectionId/items').get(ensureAuthenticated, getAllCollectionItemsByCollectionId);
+router.route('/collections/byCollectionId/items').get(getAllCollectionItemsByCollectionId);
 router.route('/collections/:collectionId/items/create').post(ensureAuthenticated, createCollectionItem);
 router.route('/collections/items/update/:itemId').put(ensureAuthenticated, editCollectionItem);
 router.route('/collections/items/delete/:itemId').delete(ensureAuthenticated, deleteCollectionItem);
