@@ -9,6 +9,7 @@ passport.use(new LocalStrategy(
   async function (email, password, done) {
     // You need to implement your own logic to validate the user's credentials
     await User.findOne({ email: email }, async function (err, user) {
+      console.log("user:", user, 'err:', err)
       if (err) { return done(err); }
       if (!user) { return done(null, false); }
       if (!(await bcrypt.compare(password, user?.hash_password))) { return done(null, false); }
