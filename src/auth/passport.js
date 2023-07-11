@@ -11,7 +11,7 @@ passport.use(new LocalStrategy(
     await User.findOne({ email: email }, async function (err, user) {
       if (err) { return done(err); }
       if (!user) { return done(null, false); }
-      if (!(await bcrypt.compareSync(password, user?.hash_password))) { return done(null, false); }
+      if (!(await bcrypt.compare(password, user?.hash_password))) { return done(null, false); }
       return done(null, user);
     });
   }
