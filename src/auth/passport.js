@@ -6,7 +6,9 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const User = require('../models/users');
 const bcrypt = require('bcrypt');
 // Configure the local strategy for passport
-passport.use(new JwtStrategy(
+passport.use(new JwtStrategy({
+  secretOrKey: process.env.JWT_SECRET
+},
   async function (email, password, done) {
     // You need to implement your own logic to validate the user's credentials
     await User.findOne({ email: email })
