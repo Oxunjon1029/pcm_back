@@ -12,7 +12,6 @@ module.exports.ensureAuthenticated = (req, res, next) => {
     if (err) {
       return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid token' });
     }
-    console.log(decoded)
     req.user = decoded?.user
 
     next();
