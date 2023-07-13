@@ -30,15 +30,13 @@ const collectionItemsSchema = new mongoose.Schema({
       }
     }
   ],
-  customFields: {
-    strings: [{
-      name: { type: String, required: true },
-      value: { type: String }
-    }],
-    dates: [{
-      name: { type: String, required: true },
-      value: { type: String }
-    }]
-  }
+  strings: [{
+    name: { type: String, required: true },
+    value: { type: String }
+  }],
+  dates: [{
+    name: { type: String, required: true },
+    value: { type: String }
+  }]
 }, { timestamps: true })
 module.exports = mongoose.model('CollectionItems', collectionItemsSchema)

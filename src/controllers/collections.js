@@ -140,7 +140,6 @@ const getLargestFiveCollections = async (req, res) => {
 const removeCustomField = async (req, res) => {
   try {
     const { collectionId, name, field } = req.body
-    console.log(req.body)
     if (field === 'strings') {
       const items = await Items.updateMany({ collectionId: collectionId }, {
         $pull: {
