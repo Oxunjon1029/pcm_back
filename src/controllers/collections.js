@@ -137,6 +137,38 @@ const getLargestFiveCollections = async (req, res) => {
     if (err) res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err })
   }
 }
+const removeCustomField = async (req, res) => {
+  try {
+    const { collectionId, name, field } = req.body
+    if (field === 'strings') {
+      const items = await Items.updateMany({ collectionId: collectionId }, {
+        $pull: {
+          strings: { name: name }
+        }
+      })
+      if (items.modifiedCount === 0) res.status(StatusCodes.BAD_REQUEST).json({
+        message: 'Something went wrong'
+      })
+      return res.status(StatusCodes.CREATED).json({
+        message: 'String fields removed successfully'
+      })
+    }
+    const items = await Items.updateMany({ collectionId: collectionId }, {
+      $pull: {
+        dates: { name: name }
+      }
+    })
+    if (items.modifiedCount === 0) res.status(StatusCodes.BAD_REQUEST).json({
+      message: 'Something went wrong'
+    })
+    return res.status(StatusCodes.CREATED).json({
+      message: 'Date fields removed successfully'
+    })
+
+  } catch (err) {
+    if (err) res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err })
+  }
+}
 module.exports = {
   getAllCollections,
   createCollection,
@@ -144,5 +176,6 @@ module.exports = {
   deleteCollection,
   getS3Url,
   getLargestFiveCollections,
-  getCollectionById
+  getCollectionById,
+  removeCustomField
 }
