@@ -142,8 +142,9 @@ const removeCustomField = async (req, res) => {
     const { collectionId, name, field } = req.body
     if (field === 'strings') {
       const items = await Items.updateMany({ collectionId: collectionId }, {
-        customFields: { $pull: { strings: { name: name } } }
-
+        $pull: {
+          [`${customFields['strings']}`]: { strings: { name: name } }
+        }
       })
       if (items.modifiedCount === 0) res.status(StatusCodes.BAD_REQUEST).json({
         message: 'Something went wrong'
@@ -153,7 +154,9 @@ const removeCustomField = async (req, res) => {
       })
     }
     const items = await Items.updateMany({ collectionId: collectionId }, {
-      customFields: { $pull: { dates: { name: name } } }
+      $pull: {
+        [`${customFields['dates']}`]: { name: name }
+      }
     })
     if (items.modifiedCount === 0) res.status(StatusCodes.BAD_REQUEST).json({
       message: 'Something went wrong'
