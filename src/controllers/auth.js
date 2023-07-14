@@ -47,7 +47,7 @@ const signIn = async (req, res) => {
       if (await bcrypt.compare(password, user.hash_password) && user.status === 'active') {
         const { _id, name, email, status, role } = user;
         const token = jwt.sign(
-          { user: { _id: _id, role: role } },
+          { user: { _id: _id, role: role, name: name, status: status } },
           process.env.JWT_SECRET, { expiresIn: process.env.EXPIRE_TIME });
         return res.status(StatusCodes.OK).json({
           token,
