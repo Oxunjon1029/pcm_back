@@ -106,7 +106,7 @@ const addOrRemoveUserAsAdmin = async (req, res) => {
       })
       const Users = await User.find({})
       return res.status(StatusCodes.CREATED).json({
-        message: `${role === 'user' ? "Added to admins" : 'Removed from admins'}`,
+        message: `${role === 'user' ? "Removed from admins" : 'Added to admins'}`,
         users: Users
       })
     } else {
@@ -118,7 +118,7 @@ const addOrRemoveUserAsAdmin = async (req, res) => {
       })
       const Users = await User.find({})
       return res.status(StatusCodes.OK).json({
-        message: `${role === 'user' ? "Added to admins" : 'Removed from admins'}`,
+        message: `${role === 'user' ? "Removed from admins" : 'Added to admins'}`,
         users: Users
       })
     }
