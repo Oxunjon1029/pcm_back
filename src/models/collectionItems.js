@@ -37,6 +37,19 @@ const collectionItemsSchema = new mongoose.Schema({
   dates: [{
     name: { type: String, required: true },
     value: { type: String }
-  }]
+  }],
+  multilineTexts: [{
+    name: { type: String, required: true },
+    value: { type: String }
+  }],
+  integers: [{
+    name: { type: String, required: true },
+    value: { type: Number }
+  }],
+  booleans: [{
+    name: { type: String, required: true },
+    value: { type: Boolean }
+  }],
+
 }, { timestamps: true })
 module.exports = mongoose.model('CollectionItems', collectionItemsSchema)

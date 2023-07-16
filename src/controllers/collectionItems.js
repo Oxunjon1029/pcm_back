@@ -29,7 +29,7 @@ const createCollectionItem = async (req, res) => {
   })
   try {
     const { collectionId } = req.params
-    const { name, uztags, entags, strings, dates } = req.body
+    const { name, uztags, entags, strings, dates, multilineTexts, integers, booleans } = req.body
 
     const newItem = await Items.create(
       {
@@ -38,7 +38,10 @@ const createCollectionItem = async (req, res) => {
         entags: entags,
         collectionId: collectionId,
         strings: strings,
-        dates: dates
+        dates: dates,
+        multilineTexts: multilineTexts,
+        integers: integers,
+        booleans: booleans
       })
     if (!newItem) res.status(StatusCodes.BAD_REQUEST).json({
       message: 'Something went wrong'
@@ -65,7 +68,10 @@ const editCollectionItem = async (req, res) => {
         uztags: uztags,
         entags: entags,
         strings: strings,
-        dates: dates
+        dates: dates,
+        multilineTexts: multilineTexts,
+        integers: integers,
+        booleans: booleans
       },
       { new: true });
     if (!updatedItem) res.status(StatusCodes.BAD_REQUEST).json({
