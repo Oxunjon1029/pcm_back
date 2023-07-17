@@ -41,7 +41,10 @@ app.use('/api/v1', collectionItemRouter)
 app.use('/api/v1', searchRouter)
 app.use('/api/v1', topicRouter)
 app.use('/api/v1', tagsRouter)
-
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
 
 const io = new Server(server, {
   cors: {
