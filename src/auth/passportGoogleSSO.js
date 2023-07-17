@@ -19,30 +19,30 @@ passport.use(new GoogleStrategy({
 
     const user = await User.findOne({ googleId: profile.id });
     if (user) {
-      cb(null, user)
+      return cb(null, user)
     }
     else {
       const newUser = await User.create(defaultUser).catch((err) => {
-        cb(err, null)
+        if (err) cb(err, null)
       })
       if (newUser) {
-        cb(null, newUser)
+        return cb(null, newUser)
       }
     }
   }))
 
 
-  passport.serializeUser((user, cb) => {
-    console.log('Serializing user', user);
-    cb(null, user);
-  });
-  
+passport.serializeUser((user, cb) => {
+  console.log('Serializing user', user);
+  cb(null, user._id);
+});
+
 
 passport.deserializeUser(async (id, cb) => {
   try {
     const user = await User.findOne({ _id: id });
-    cb(null, user);
+    return cb(null, user);
   } catch (err) {
-    cb(err, null);
+    return cb(err, null);
   }
 });
