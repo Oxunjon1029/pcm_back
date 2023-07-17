@@ -27,7 +27,6 @@ app.use(cors({
 
 
 app.use(cookieSession({
-  name: 'google-auth-session',
   maxAge: 24 * 60 * 60 * 100,
   keys: [process.env.COOKIE_SECRET]
 }))
