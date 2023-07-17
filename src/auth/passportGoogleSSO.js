@@ -19,16 +19,16 @@ passport.use(new GoogleStrategy({
 
     const user = await User.findOne({ googleId: profile.id });
     if (user) {
-      cb(null, user)
+      return cb(null, user)
     }
     else {
       const newUser = await User.create(defaultUser).catch((err) => {
         if (err) {
-          cb(err, null)
+          return cb(err, null)
         }
       })
       if (newUser) {
-        cb(null, newUser)
+        return cb(null, newUser)
       }
     }
   }))
@@ -36,7 +36,7 @@ passport.use(new GoogleStrategy({
 
 passport.serializeUser((user, cb) => {
   console.log('Serializing user', user);
-  cb(null, user.id);
+  cb(null, user._id);
 });
 
 
