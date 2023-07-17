@@ -3,7 +3,7 @@ const { StatusCodes } = require('http-status-codes')
 module.exports.ensureAuthenticated = (req, res, next) => {
   console.log("request user",req.isAuthenticated())
   if (req.isAuthenticated()) {
-    next()
+    return next()
   } else {
     const token = req.headers.authorization;
 

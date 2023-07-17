@@ -7,6 +7,7 @@ const { Server } = require('socket.io');
 const Item = require('./src/models/collectionItems')
 const PORT = process.env.PORT || 5000
 const cookieSession = require('cookie-session')
+const cookieParser = require("cookie-parser");
 const connectDB = require('./src/db/connectDb')
 const authRouter = require('./src/routes/auth')
 const userRouter = require('./src/routes/users');
@@ -30,6 +31,7 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 100,
   keys: [process.env.COOKIE_SECRET]
 }))
+app.use(cookieParser())
 // Initialize Passport.js
 app.use(passport.initialize());
 app.use(passport.session());
