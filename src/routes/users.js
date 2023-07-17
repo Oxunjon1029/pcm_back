@@ -5,11 +5,13 @@ const {
   getUserById,
   changeStatusOfUser,
   addOrRemoveUserAsAdmin,
-  deleteUser
+  deleteUser,
+  getAuthUser
 } = require('../controllers/users');
 const { isAuthenticatedAndAdmin } = require('../middlewares/guardAdmin');
 const { ensureAuthenticated } = require('../middlewares/ensureAuthenticated');
 
+router.route('/auth/user').get(ensureAuthenticated, getAuthUser)
 router.route('/users').get(ensureAuthenticated, isAuthenticatedAndAdmin, getAllUsers)
 router.route('/users/:id').get(ensureAuthenticated, isAuthenticatedAndAdmin, getUserById);
 router.route('/users/status').put(ensureAuthenticated, isAuthenticatedAndAdmin, changeStatusOfUser);
