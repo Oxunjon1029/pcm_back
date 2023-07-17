@@ -6,7 +6,6 @@ const server = require('http').createServer(app);
 const { Server } = require('socket.io');
 const Item = require('./src/models/collectionItems')
 const PORT = process.env.PORT || 5000
-const cookieSession = require('cookie-session')
 const cookieParser = require("cookie-parser");
 const connectDB = require('./src/db/connectDb')
 const authRouter = require('./src/routes/auth')
@@ -26,11 +25,15 @@ app.use(cors({
 }));
 
 
-app.use(cookieSession({
-  name: 'frontSession',
-  maxAge: 24 * 60 * 60 * 100,
-  keys: [process.env.COOKIE_SECRET]
-}))
+const session = require("express-session");
+
+app.use(
+  session({
+    secret: process.env.COOKIE_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 app.use(cookieParser())
 // Initialize Passport.js
 app.use(passport.initialize());
