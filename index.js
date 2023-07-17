@@ -20,10 +20,7 @@ const tagsRouter = require('./src/routes/tags')
 require('./src/auth/passportGoogleSSO')
 
 
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
-}));
+app.use(cors());
 
 
 app.use(cookieSession({
