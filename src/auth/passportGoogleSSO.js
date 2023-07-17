@@ -32,16 +32,17 @@ passport.use(new GoogleStrategy({
   }))
 
 
-passport.serializeUser((user, cb) => {
-  console.log('Serializing user', user)
-  cb(null, user._id)
-})
+  passport.serializeUser((user, cb) => {
+    console.log('Serializing user', user);
+    cb(null, user);
+  });
+  
 
 passport.deserializeUser(async (id, cb) => {
-  const user = await User.findOne({ _id: id }).catch((err) => {
-    cb(err, null)
-  })
-  if (user) {
-    cb(null, user)
+  try {
+    const user = await User.findOne({ _id: id });
+    cb(null, user);
+  } catch (err) {
+    cb(err, null);
   }
-})
+});
