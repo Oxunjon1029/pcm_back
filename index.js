@@ -7,6 +7,7 @@ const { Server } = require('socket.io');
 const Item = require('./src/models/collectionItems')
 const PORT = process.env.PORT || 5000
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const connectDB = require('./src/db/connectDb')
 const authRouter = require('./src/routes/auth')
 const userRouter = require('./src/routes/users');
@@ -27,10 +28,15 @@ app.use(cors({
 
 app.use(
   session({
-    name:'session',
+    name: 'session',
     secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: new MongoStore({
+      // Configure the MongoDB connection options
+      url: process.env.MONGO_URL, // Replace with your MongoDB connection URL
+      collection: 'sessions', // Specify the collection name for storing sessions
+    }),
     cookie: {
       maxAge: 24 * 60 * 60 * 1000, // Set the session duration as needed
     },
