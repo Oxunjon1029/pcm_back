@@ -19,14 +19,16 @@ passport.use(new GoogleStrategy({
 
     const user = await User.findOne({ googleId: profile.id });
     if (user) {
-      return cb(null, user)
+      cb(null, user)
     }
     else {
       const newUser = await User.create(defaultUser).catch((err) => {
-        if (err) cb(err, null)
+        if (err) {
+          cb(err, null)
+        }
       })
       if (newUser) {
-        return cb(null, newUser)
+        cb(null, newUser)
       }
     }
   }))
@@ -34,15 +36,15 @@ passport.use(new GoogleStrategy({
 
 passport.serializeUser((user, cb) => {
   console.log('Serializing user', user);
-  return cb(null, user._id);
+  cb(null, user._id);
 });
 
 
 passport.deserializeUser(async (id, cb) => {
   try {
     const user = await User.findOne({ _id: id });
-    return cb(null, user);
+    cb(null, user);
   } catch (err) {
-    return cb(err, null);
+    cb(err, null);
   }
 });
