@@ -8,7 +8,7 @@ const {
 } = require("../validators/auth");
 const passport = require('passport')
 router.route("/signin").post(validateSignIpRequest, isRequestValidated, signIn);
-router.route('/loginWithGoogle').get(passport.authenticate('google', { scope: ['profile', 'email'] }))
+router.route('/loginWithGoogle').get(passport.authenticate('google', { scope: ['email', 'profile'] }))
 router.route('/auth/google/callback').get(passport.authenticate('google',
   {
     failureMessage: 'Cannot login, please try again',
