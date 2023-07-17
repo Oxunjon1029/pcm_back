@@ -18,12 +18,16 @@ passport.use(new GoogleStrategy({
     }
 
     const user = await User.findOne({ googleId: profile.id });
-    if (user) cb(null, user)
+    if (user) {
+      cb(null, user)
+    }
     else {
       const newUser = await User.create(defaultUser).catch((err) => {
         cb(err, null)
       })
-      if (newUser) cb(null, newUser)
+      if (newUser) {
+        cb(null, newUser)
+      }
     }
   }))
 
@@ -37,5 +41,7 @@ passport.deserializeUser(async (id, cb) => {
   const user = await User.findOne({ _id: id }).catch((err) => {
     cb(err, null)
   })
-  if (user) cb(null, user)
+  if (user) {
+    cb(null, user)
+  }
 })
