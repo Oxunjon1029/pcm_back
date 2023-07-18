@@ -16,6 +16,7 @@ const collectionItemRouter = require('./src/routes/collectionItem');
 const searchRouter = require('./src/routes/search')
 const topicRouter = require('./src/routes/topic')
 const tagsRouter = require('./src/routes/tags')
+
 require('./src/auth/passportGoogleSSO')
 
 
@@ -25,7 +26,7 @@ app.use(cookieSession({
   name: 'session',
   secret: process.env.COOKIE_SECRET,
   sameSite: 'none',
-  secure: true,
+  // secure: true,
 }))
 
 // Initialize Passport.js
