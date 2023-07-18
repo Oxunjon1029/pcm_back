@@ -24,6 +24,7 @@ app.use(cors());
 
 
 app.use(cookieSession({
+  name:'session',
   resave: false,
   saveUninitialized: false,
   secret: process.env.JWT_SECRET,
