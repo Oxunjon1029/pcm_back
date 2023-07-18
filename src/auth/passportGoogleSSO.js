@@ -25,7 +25,7 @@ passport.use(new GoogleStrategy({
         cb(null, user);
       } else {
         newUser = await User.create(defaultUser);
-        req.user = user
+        req.user = newUser
         console.log(newUser)
         cb(null, newUser);
       }
