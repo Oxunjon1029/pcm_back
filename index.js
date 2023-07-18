@@ -16,28 +16,31 @@ const collectionItemRouter = require('./src/routes/collectionItem');
 const searchRouter = require('./src/routes/search')
 const topicRouter = require('./src/routes/topic')
 const tagsRouter = require('./src/routes/tags')
-
 require('./src/auth/passportGoogleSSO')
 
 
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true
 }));
 
+
+
 app.use(cookieSession({
+  name: 'google-auth-session',
   maxAge: 24 * 60 * 60 * 100,
   keys: [process.env.COOKIE_SECRET],
-  secure:true,
-  sameSite:'none'
+  sameSite: 'none',
+  secure: true
 }))
 
 // Initialize Passport.js
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+
 
 app.use('/api/v1', authRouter)
 app.use('/api/v1', userRouter)
