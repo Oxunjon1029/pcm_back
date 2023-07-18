@@ -11,12 +11,19 @@ const { StatusCodes } = require("http-status-codes");
 router.route("/signin").post(validateSignIpRequest, isRequestValidated, signIn);
 router.route('/loginWithGoogle').get(passport.authenticate('google', { scope: ['email', 'profile'] }))
 router.route('/login/success').get((req, res) => {
-  if (req.user) {
-    return res.status(StatusCodes.OK).json({
-      success: true,
-      message: 'Successfully logged in',
-      user: req.user
+  try {
+    if (req.user) {
+      return res.status(StatusCodes.OK).json({
+        success: true,
+        message: 'Successfully logged in',
+        user: req.user
+      })
+    }
+    return res.status(StatusCodes.UNAUTHORIZED).json({
+      message: 'Unauthorized'
     })
+  } catch (err) {
+    if (err) res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err })
   }
 })
 router.route('/auth/google/callback').get(passport.authenticate('google',
