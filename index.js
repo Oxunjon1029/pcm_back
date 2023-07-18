@@ -23,7 +23,7 @@ require('./src/auth/passportGoogleSSO')
 
 
 app.use(cookieSession({
-  name: 'session',
+  maxAge: 24 * 60 * 60 * 100,
   keys: [process.env.COOKIE_SECRET],
   sameSite: 'none',
   // secure: true,
