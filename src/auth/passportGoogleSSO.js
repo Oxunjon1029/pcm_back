@@ -21,14 +21,14 @@ passport.use(new GoogleStrategy({
       let user = await User.findOne({ googleId: profile.id });
       console.log(user)
       if (user) {
-        cb(null, user);
+        return cb(null, user);
       } else {
         newUser = await User.create(defaultUser);
         console.log(newUser)
-        cb(null, newUser);
+        return cb(null, newUser);
       }
     } catch (err) {
-      cb(err, null);
+      return cb(err, null);
     }
   }))
 
