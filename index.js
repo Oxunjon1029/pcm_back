@@ -9,9 +9,9 @@ const PORT = process.env.PORT || 5000
 require('./src/auth/passportGoogleSSO')
 const cookieSession = require('cookie-session')
 const connectDB = require('./src/db/connectDb')
+const passport = require('passport')
 const authRouter = require('./src/routes/auth')
 const userRouter = require('./src/routes/users');
-const passport = require('passport')
 const collectionRouter = require('./src/routes/collections');
 const collectionItemRouter = require('./src/routes/collectionItem');
 const searchRouter = require('./src/routes/search')
