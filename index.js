@@ -26,7 +26,10 @@ app.use(cors({
 
 app.use(cookieSession({
   name: 'session',
-  keys: [process.env.JWT_SECRET]
+  keys: [process.env.JWT_SECRET],
+  sameSite: 'none',
+  secure: true,
+  secret: process.env.COOKIE_SECRET
 }))
 
 // Initialize Passport.js
