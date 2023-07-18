@@ -35,7 +35,10 @@ router.route('/auth/google/callback').get(passport.authenticate('google',
     failureMessage: 'Cannot login, please try again',
     failureRedirect: 'http://localhost:3000/loginError',
     successRedirect: 'http://localhost:3000/loginSuccess'
-  }))
+  }), (req, res) => {
+    const token = req.user;
+    return res.status(StatusCodes.OK).json({ token })
+  })
 
 router.route("/signup").post(validateSignUpRequest, isRequestValidated, signUp);
 
