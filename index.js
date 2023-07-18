@@ -29,7 +29,6 @@ app.use(cookieSession({
   keys: [process.env.JWT_SECRET],
   sameSite: 'none',
   secure: true,
-  secret: process.env.COOKIE_SECRET
 }))
 
 // Initialize Passport.js
