@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { StatusCodes } = require('http-status-codes')
 module.exports.ensureAuthenticated = (req, res, next) => {
-  console.log("request user",req.session)
+  console.log("request user",req.user)
   if (req.user) {
     return next()
   } else {
