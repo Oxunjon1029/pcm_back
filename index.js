@@ -22,7 +22,7 @@ app.use(cors());
 
 
 app.use(cookieSession({
-  name: 'google-auth-session',
+  name: 'session',
   keys: [process.env.JWT_SECRET]
 }))
 
