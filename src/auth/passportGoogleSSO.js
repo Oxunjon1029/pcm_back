@@ -2,6 +2,22 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('../models/users');
 
+
+passport.serializeUser((user, cb) => {
+  console.log('Serializing user', user);
+  cb(null, user.id);
+});
+
+
+passport.deserializeUser(async (id, cb) => {
+  try {
+    const user = await User.findById(id);
+    console.log('desirilized user:', user)
+    cb(null, user);
+  } catch (err) {
+    cb(err, null);
+  }
+});
 const GOOGLE_CALLBACK_URL = 'https://pcmback-production.up.railway.app/api/v1/auth/google/callback'
 
 passport.use(new GoogleStrategy({
@@ -32,18 +48,4 @@ passport.use(new GoogleStrategy({
   }))
 
 
-passport.serializeUser((user, cb) => {
-  console.log('Serializing user', user);
-  cb(null, user.id);
-});
 
-
-passport.deserializeUser(async (id, cb) => {
-  try {
-    const user = await User.findById(id);
-    console.log('desirilized user:', user)
-    cb(null, user);
-  } catch (err) {
-    cb(err, null);
-  }
-});
