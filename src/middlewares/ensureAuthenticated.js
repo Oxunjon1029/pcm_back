@@ -6,7 +6,7 @@ module.exports.ensureAuthenticated = (req, res, next) => {
     return next()
   } else {
     const token = req.headers.authorization;
-
+    
     if (!token) {
       return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'No token provided' });
     }
