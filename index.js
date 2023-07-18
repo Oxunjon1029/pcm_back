@@ -25,8 +25,8 @@ app.use(cors());
 
 app.use(cookieSession({
   name:'session',
-  resave: false,
-  saveUninitialized: false,
+  // resave: false,
+  // saveUninitialized: false,
   secret: process.env.JWT_SECRET,
   cookie: {
     maxAge: 24 * 60 * 60 * 1000,
