@@ -6,7 +6,8 @@ const server = require('http').createServer(app);
 const { Server } = require('socket.io');
 const Item = require('./src/models/collectionItems')
 const PORT = process.env.PORT || 5000
-const cookieSession = require('express-session')
+require('./src/auth/passportGoogleSSO')
+const cookieSession = require('cookie-session')
 const connectDB = require('./src/db/connectDb')
 const authRouter = require('./src/routes/auth')
 const userRouter = require('./src/routes/users');
@@ -16,36 +17,31 @@ const collectionItemRouter = require('./src/routes/collectionItem');
 const searchRouter = require('./src/routes/search')
 const topicRouter = require('./src/routes/topic')
 const tagsRouter = require('./src/routes/tags')
-require('./src/auth/passportGoogleSSO')
 
 
 
 
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
-}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
-app.use(cookieSession({
-  name: 'google-auth-session',
-  resave: false,
-  saveUninitialized: false,
-  secret: process.env.COOKIE_SECRET,
-  cookie: {
-    secure: true,
-    maxAge: 24 * 60 * 60 * 100,
-    sameSite: 'none',
-  }
-}))
+app.use(
+  cookieSession({
+    name: 'google-auth-session',
+    keys: [process.env.COOKIE_SECRET],
+    maxAge: 24 * 6060 * 1000
+  }))
 
 // Initialize Passport.js
 app.use(passport.initialize());
 app.use(passport.session());
 
-
+app.use(cors({
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  credentials: true
+}));
 app.use('/api/v1', authRouter)
 app.use('/api/v1', userRouter)
 app.use('/api/v1', collectionRouter)

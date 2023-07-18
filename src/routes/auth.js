@@ -6,9 +6,19 @@ const {
   validateSignUpRequest,
   validateSignIpRequest,
 } = require("../validators/auth");
-const passport = require('passport')
+const passport = require('passport');
+const { StatusCodes } = require("http-status-codes");
 router.route("/signin").post(validateSignIpRequest, isRequestValidated, signIn);
 router.route('/loginWithGoogle').get(passport.authenticate('google', { scope: ['email', 'profile'] }))
+router.route('/login/success').get((req, res) => {
+  if (req.user) {
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Successfully logged in',
+      user: req.user
+    })
+  }
+})
 router.route('/auth/google/callback').get(passport.authenticate('google',
   {
     failureMessage: 'Cannot login, please try again',
