@@ -26,8 +26,9 @@ router.route('/login/success').get((req, res) => {
     if (err) res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err })
   }
 })
-router.route('/auth/google/callback').get(passport.authenticate('google', { session: false },
+router.route('/auth/google/callback').get(passport.authenticate('google',
   {
+    session: false,
     failureMessage: 'Cannot login, please try again',
     failureRedirect: 'http://localhost:3000/loginError',
     successRedirect: 'http://localhost:3000/loginSuccess'

@@ -22,15 +22,15 @@ passport.use(new GoogleStrategy({
       console.log(user)
       if (user) {
         req.user = user
-        cb(null, user);
+        return cb(null, user);
       } else {
         newUser = await User.create(defaultUser);
         req.user = newUser
         console.log(newUser)
-        cb(null, newUser);
+        return cb(null, newUser);
       }
     } catch (err) {
-      cb(err, null);
+      return cb(err, null);
     }
   }))
 
