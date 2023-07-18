@@ -22,12 +22,10 @@ passport.use(new GoogleStrategy({
 
       if (user) {
         req.session.user = user;
-        req.session.save();
         return cb(null, user);
       } else {
         newUser = await User.create(defaultUser);
         req.session.user = newUser;
-        req.session.save();
         return cb(null, newUser);
       }
     } catch (err) {
