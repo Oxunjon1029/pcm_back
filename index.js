@@ -18,10 +18,7 @@ const topicRouter = require('./src/routes/topic')
 const tagsRouter = require('./src/routes/tags')
 require('./src/auth/passportGoogleSSO')
 
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
-}));
+
 
 
 app.use(cookieSession({
@@ -36,7 +33,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 app.use('/api/v1', authRouter)
 app.use('/api/v1', userRouter)
 app.use('/api/v1', collectionRouter)

@@ -17,19 +17,17 @@ passport.use(new GoogleStrategy({
       googleId: profile.id
     }
 
-    const user = await User.findOne({ googleId: profile.id });
-    if (user) {
-      return cb(null, user)
-    }
-    else {
-      const newUser = await User.create(defaultUser).catch((err) => {
-        if (err) {
-          return cb(err, null)
-        }
-      })
-      if (newUser) {
-        return cb(null, newUser)
+    try {
+      let user = await User.findOne({ googleId: profile.id });
+  
+      if (user) {
+        return cb(null, user);
+      } else {
+        user = await User.create(defaultUser);
+        return cb(null, user);
       }
+    } catch (err) {
+      return cb(err, null);
     }
   }))
 
