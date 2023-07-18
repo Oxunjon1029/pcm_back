@@ -21,9 +21,11 @@ passport.use(new GoogleStrategy({
       let user = await User.findOne({ googleId: profile.id });
       console.log(user)
       if (user) {
+        req.user = user
         return cb(null, user);
       } else {
         newUser = await User.create(defaultUser);
+        req.user = user
         console.log(newUser)
         return cb(null, newUser);
       }
