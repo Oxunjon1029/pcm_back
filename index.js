@@ -34,9 +34,10 @@ app.use(
   cookieSession({
     name: 'google-auth-session',
     keys: [process.env.COOKIE_SECRET],
-    maxAge: 24 * 60*60 * 1000,
+    maxAge: 24 * 60 * 60 * 1000,
     sameSite: 'none',
-    secure: true
+    secure: true,
+    httpOnly: false
   }))
 
 // Initialize Passport.js
