@@ -13,9 +13,11 @@ router.route('/loginWithGoogle').get(passport.authenticate('google', { scope: ['
 router.route('/login/success').get((req, res) => {
   try {
     const token = req.headers.authorization;
+    console.log('token', token)
     if (token) {
       const decoded = jwt.verify(token, COOKIE_SECRET);
       const user = decoded?.user;
+      console.log(user)
       return res.status(StatusCodes.OK).json({
         success: true,
         message: 'Successfully logged in',
@@ -37,6 +39,7 @@ router.route('/auth/google/callback').get(passport.authenticate('google',
     successRedirect: 'http://localhost:3000/loginSuccess'
   }), (req, res) => {
     const token = req.user;
+    console.log('sent token:',token)
     return res.status(StatusCodes.OK).json({ token })
   })
 

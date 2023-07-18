@@ -19,13 +19,13 @@ passport.use(new GoogleStrategy({
 
     try {
       let user = await User.findOne({ googleId: profile.id });
-      jwt.sign({ user }, process.env.COOKIE_SECRET)
+      jwt.sign({ user: user }, process.env.COOKIE_SECRET)
       if (user) {
         req.user = user
         return cb(null, user);
       } else {
         newUser = await User.create(defaultUser);
-        jwt.sign({ user }, process.env.COOKIE_SECRET)
+        jwt.sign({ user: user }, process.env.COOKIE_SECRET)
         console.log(newUser)
         return cb(null, newUser);
       }
