@@ -20,19 +20,16 @@ const tagsRouter = require('./src/routes/tags')
 require('./src/auth/passportGoogleSSO')
 app.use(cookieParser())
 
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
-}));
+app.use(cors());
 
 
 app.use(cookieSession({
   resave: false,
   saveUninitialized: false,
-  secret: process.env.COOKIE_SECRET,
+  secret: process.env.JWT_SECRET,
   cookie: {
     maxAge: 24 * 60 * 60 * 1000,
-    // sameSite: 'none',
+    sameSite: 'none',
     secure: true
   }
 }))
