@@ -21,11 +21,9 @@ passport.use(new GoogleStrategy({
       let user = await User.findOne({ googleId: profile.id });
 
       if (user) {
-        req.session.user = user;
         return cb(null, user);
       } else {
         newUser = await User.create(defaultUser);
-        req.session.user = newUser;
         return cb(null, newUser);
       }
     } catch (err) {
