@@ -28,8 +28,8 @@ app.use(cors({
 app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 100,
   keys: [process.env.COOKIE_SECRET],
-  // sameSite: 'none',
-  // // secure: true,
+  secure:true,
+  sameSite:'none'
 }))
 
 // Initialize Passport.js
