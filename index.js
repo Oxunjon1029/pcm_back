@@ -33,10 +33,12 @@ app.use(cookieSession({
   name: 'google-auth-session',
   resave: false,
   saveUninitialized: false,
+  secret: process.env.COOKIE_SECRET,
   cookie: {
     secure: true,
     maxAge: 24 * 60 * 60 * 100,
-    sameSite: 'none'
+    sameSite: 'none',
+
   }
 }))
 
