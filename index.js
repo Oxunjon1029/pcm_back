@@ -26,7 +26,7 @@ app.use(cors({
 
 app.use(cookieSession({
   name: 'session',
-  keys: [process.env.JWT_SECRET],
+  secret: process.env.COOKIE_SECRET,
   sameSite: 'none',
   secure: true,
 }))
