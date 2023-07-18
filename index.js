@@ -24,7 +24,7 @@ require('./src/auth/passportGoogleSSO')
 
 app.use(cookieSession({
   name: 'session',
-  secret: process.env.COOKIE_SECRET,
+  keys: [process.env.COOKIE_SECRET],
   sameSite: 'none',
   // secure: true,
 }))
