@@ -1,7 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('../models/users');
-
+const jwt = require('jsonwebtoken');
 const GOOGLE_CALLBACK_URL = 'https://pcmback-production.up.railway.app/api/v1/auth/google/callback'
 
 passport.use(new GoogleStrategy({
@@ -19,13 +19,13 @@ passport.use(new GoogleStrategy({
 
     try {
       let user = await User.findOne({ googleId: profile.id });
-      console.log(user)
+      jwt.sign({ user }, process.env.COOKIE_SECRET)
       if (user) {
         req.user = user
         return cb(null, user);
       } else {
         newUser = await User.create(defaultUser);
-        req.user = newUser
+        jwt.sign({ user }, process.env.COOKIE_SECRET)
         console.log(newUser)
         return cb(null, newUser);
       }

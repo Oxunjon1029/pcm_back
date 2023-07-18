@@ -12,11 +12,14 @@ router.route("/signin").post(validateSignIpRequest, isRequestValidated, signIn);
 router.route('/loginWithGoogle').get(passport.authenticate('google', { scope: ['email', 'profile'] }))
 router.route('/login/success').get((req, res) => {
   try {
-    if (req.user) {
+    const token = req.headers.authorization;
+    if (token) {
+      const decoded = jwt.verify(token, COOKIE_SECRET);
+      const user = decoded?.user;
       return res.status(StatusCodes.OK).json({
         success: true,
         message: 'Successfully logged in',
-        user: req.user
+        user: user
       })
     }
     return res.status(StatusCodes.UNAUTHORIZED).json({
