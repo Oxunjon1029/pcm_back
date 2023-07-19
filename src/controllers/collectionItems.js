@@ -60,7 +60,7 @@ const editCollectionItem = async (req, res) => {
   })
   try {
     const { itemId } = req.params;
-    const { name, uztags, entags, strings, dates } = req.body
+    const { name, uztags, entags, strings, dates, multilineTexts, integers, booleans } = req.body
     const updatedItem = await Items.findOneAndUpdate(
       { _id: itemId },
       {
