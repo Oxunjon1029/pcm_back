@@ -12,7 +12,7 @@ const {
 const { ensureAuthenticated } = require('../middlewares/ensureAuthenticated');
 
 router.route('/collection').get(ensureAuthenticated, getAllCollections);
-router.route('/collection/:id').get(ensureAuthenticated, getCollectionById)
+router.route('/collection/:id').get(getCollectionById)
 router.route('/collections/create').post(ensureAuthenticated, createCollection);
 router.route('/collections/edit/:id').put(ensureAuthenticated, editCollection);
 router.route('/collections/delete/:id').delete(ensureAuthenticated, deleteCollection);
