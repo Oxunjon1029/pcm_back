@@ -25,14 +25,12 @@ const searchFullText = async (req, res) => {
 const searchItemsByTag = async (req, res) => {
   try {
     const { tag, lang } = req.query;
-    console.log(tag,lang)
     if (tag && lang) {
       const tagsField = lang === 'uz' ? 'uztags' : 'entags'
       const items = await CollectionItems.find({ [tagsField]: { $elemMatch: { title: tag } } });
       if (!items) res.status(StatusCodes.BAD_REQUEST).json({
         message: 'Something went wrong'
       })
-      console.log(items)
       return res.status(StatusCodes.OK).json(items)
     }
     return res.status(StatusCodes.OK).json([])
